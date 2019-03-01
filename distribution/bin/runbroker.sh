@@ -38,7 +38,7 @@ export CLASSPATH=.:${BASE_DIR}/conf:${CLASSPATH}
 #===========================================================================================
 # JVM Configuration
 #===========================================================================================
-JAVA_OPT="${JAVA_OPT} -server -256m -Xmx256m -Xmn128m"
+JAVA_OPT="${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn128m"
 JAVA_OPT="${JAVA_OPT} -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:G1ReservePercent=25 -XX:InitiatingHeapOccupancyPercent=30 -XX:SoftRefLRUPolicyMSPerMB=0 -XX:SurvivorRatio=8"
 JAVA_OPT="${JAVA_OPT} -verbose:gc -Xloggc:/dev/shm/mq_gc_%p.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintAdaptiveSizePolicy"
 JAVA_OPT="${JAVA_OPT} -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=30m"
