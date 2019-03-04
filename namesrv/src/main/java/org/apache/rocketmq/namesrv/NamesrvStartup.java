@@ -18,11 +18,6 @@ package org.apache.rocketmq.namesrv;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.concurrent.Callable;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -37,6 +32,12 @@ import org.apache.rocketmq.srvutil.ServerUtil;
 import org.apache.rocketmq.srvutil.ShutdownHookThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.concurrent.Callable;
 
 public class NamesrvStartup {
     public static Properties properties = null;
@@ -58,9 +59,12 @@ public class NamesrvStartup {
                 return null;
             }
 
+            //NameServer业务参数
             final NamesrvConfig namesrvConfig = new NamesrvConfig();
+            //NameServer网络参数
             final NettyServerConfig nettyServerConfig = new NettyServerConfig();
             nettyServerConfig.setListenPort(9876);
+            //configFile 通过-c命令指定配置文件路径
             if (commandLine.hasOption('c')) {
                 String file = commandLine.getOptionValue('c');
                 if (file != null) {
@@ -77,6 +81,7 @@ public class NamesrvStartup {
                 }
             }
 
+            //--属性名 属性值 指定配置   --listerport 9876
             if (commandLine.hasOption('p')) {
                 MixAll.printObjectProperties(null, namesrvConfig);
                 MixAll.printObjectProperties(null, nettyServerConfig);
@@ -111,6 +116,7 @@ public class NamesrvStartup {
                 System.exit(-3);
             }
 
+            //注册jvm钩子函数并启动服务器、以便监听broker，消息生产者的网络请求
             Runtime.getRuntime().addShutdownHook(new ShutdownHookThread(log, new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {

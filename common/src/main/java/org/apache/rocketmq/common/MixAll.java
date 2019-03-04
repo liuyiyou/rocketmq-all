@@ -57,6 +57,7 @@ public class MixAll {
     public static final String WS_DOMAIN_SUBGROUP = System.getProperty("rocketmq.namesrv.domain.subgroup", "nsaddr");
     //http://jmenv.tbsite.net:8080/rocketmq/nsaddr
     //public static final String WS_ADDR = "http://" + WS_DOMAIN_NAME + ":8080/rocketmq/" + WS_DOMAIN_SUBGROUP;
+    //AutoCreateTopic_Enable=true
     public static final String DEFAULT_TOPIC = "TBW102";
     public static final String BENCHMARK_TOPIC = "BenchmarkTest";
     public static final String DEFAULT_PRODUCER_GROUP = "DEFAULT_PRODUCER";
@@ -65,9 +66,12 @@ public class MixAll {
     public static final String FILTERSRV_CONSUMER_GROUP = "FILTERSRV_CONSUMER";
     public static final String MONITOR_CONSUMER_GROUP = "__MONITOR_CONSUMER";
     public static final String CLIENT_INNER_PRODUCER_GROUP = "CLIENT_INNER_PRODUCER";
+
     public static final String SELF_TEST_PRODUCER_GROUP = "SELF_TEST_P_GROUP";
     public static final String SELF_TEST_CONSUMER_GROUP = "SELF_TEST_C_GROUP";
+    //默认的一些TOPIC
     public static final String SELF_TEST_TOPIC = "SELF_TEST_TOPIC";
+
     public static final String OFFSET_MOVED_EVENT = "OFFSET_MOVED_EVENT";
     public static final String ONS_HTTP_PROXY_GROUP = "CID_ONS-HTTP-PROXY";
     public static final String CID_ONSAPI_PERMISSION_GROUP = "CID_ONSAPI_PERMISSION";

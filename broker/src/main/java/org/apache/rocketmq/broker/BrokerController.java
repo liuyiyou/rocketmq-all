@@ -680,6 +680,7 @@ public class BrokerController {
 
         this.registerBrokerAll(true, false);
 
+        //broker发送心跳包
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
             @Override
@@ -701,6 +702,7 @@ public class BrokerController {
         }
     }
 
+    //遍历NameServer列表，Broker消息服务器依次像NameServer发送心跳包,4.2修改了实现方式
     public synchronized void registerBrokerAll(final boolean checkOrderConfig, boolean oneway) {
         TopicConfigSerializeWrapper topicConfigWrapper = this.getTopicConfigManager().buildTopicConfigSerializeWrapper();
 

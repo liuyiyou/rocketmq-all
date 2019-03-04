@@ -97,6 +97,7 @@ public class BrokerOuterAPI {
         this.remotingClient.updateNameServerAddressList(lst);
     }
 
+    //broker发送心跳包
     public RegisterBrokerResult registerBrokerAll(
         final String clusterName,
         final String brokerAddr,
@@ -111,8 +112,10 @@ public class BrokerOuterAPI {
 
         List<String> nameServerAddressList = this.remotingClient.getNameServerAddressList();
         if (nameServerAddressList != null) {
+            //遍历所有NameServer列表
             for (String namesrvAddr : nameServerAddressList) {
                 try {
+                    //分别诸恶
                     RegisterBrokerResult result = this.registerBroker(namesrvAddr, clusterName, brokerAddr, brokerName, brokerId,
                         haServerAddr, topicConfigWrapper, filterServerList, oneway, timeoutMills);
                     if (result != null) {
@@ -143,14 +146,20 @@ public class BrokerOuterAPI {
     ) throws RemotingCommandException, MQBrokerException, RemotingConnectException, RemotingSendRequestException, RemotingTimeoutException,
         InterruptedException {
         RegisterBrokerRequestHeader requestHeader = new RegisterBrokerRequestHeader();
+        //broker地址
         requestHeader.setBrokerAddr(brokerAddr);
+        //brokerId 0:Maseter >0:Slave
         requestHeader.setBrokerId(brokerId);
+        //broker名称
         requestHeader.setBrokerName(brokerName);
+        //集群名称
         requestHeader.setClusterName(clusterName);
+        //master地址，初次请求为该值为空
         requestHeader.setHaServerAddr(haServerAddr);
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.REGISTER_BROKER, requestHeader);
 
         RegisterBrokerBody requestBody = new RegisterBrokerBody();
+        //主题配置 ，topicConfigWrappe内部封装的是topic，config-manageer中的topicConfigTabel，内部存储的是Broker启东时的默认的一些Topic
         requestBody.setTopicConfigSerializeWrapper(topicConfigWrapper);
         requestBody.setFilterServerList(filterServerList);
         request.setBody(requestBody.encode());
