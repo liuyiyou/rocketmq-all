@@ -81,7 +81,7 @@ public class NamesrvStartup {
                 }
             }
 
-            //--属性名 属性值 指定配置   --listerport 9876
+            //--属性名 属性值 指定配置   --listerPort 9876
             if (commandLine.hasOption('p')) {
                 MixAll.printObjectProperties(null, namesrvConfig);
                 MixAll.printObjectProperties(null, nettyServerConfig);

@@ -143,6 +143,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
             case CREATE_JUST:
                 this.serviceState = ServiceState.START_FAILED;
 
+                //检查producerGroup是否符合要求，并改变生产者的instanceName为进程id
                 this.checkConfig();
 
                 if (!this.defaultMQProducer.getProducerGroup().equals(MixAll.CLIENT_INNER_PRODUCER_GROUP)) {
@@ -566,9 +567,12 @@ public class DefaultMQProducerImpl implements MQProducerInner {
     }
 
     private TopicPublishInfo tryToFindTopicPublishInfo(final String topic) {
+        //步骤1.1  首先从topicPublishInfoTable（本地存储的路由信息表）中获取
         TopicPublishInfo topicPublishInfo = this.topicPublishInfoTable.get(topic);
         if (null == topicPublishInfo || !topicPublishInfo.ok()) {
+            //步骤1.2  如果获取不到，先在topicPublishInfoTable插入一个new出来的TopicPublishInfo，key为topic
             this.topicPublishInfoTable.putIfAbsent(topic, new TopicPublishInfo());
+            //步骤1.3 然后通过updateTopicRouteInfoFromNameServer方法从NameServer中获取相关信息
             this.mQClientFactory.updateTopicRouteInfoFromNameServer(topic);
             topicPublishInfo = this.topicPublishInfoTable.get(topic);
         }
@@ -576,6 +580,8 @@ public class DefaultMQProducerImpl implements MQProducerInner {
         if (topicPublishInfo.isHaveTopicRouterInfo() || topicPublishInfo.ok()) {
             return topicPublishInfo;
         } else {
+            //步骤1.4 如果NameServer中也拿不到，使用 {DefaultMQProducer#createTopicKey}
+            // 对应的 Topic发布信息。目的是当 Broker 开启自动创建 Topic开关时，Broker 接收到消息后自动创建Topic
             this.mQClientFactory.updateTopicRouteInfoFromNameServer(topic, true, this.defaultMQProducer);
             topicPublishInfo = this.topicPublishInfoTable.get(topic);
             return topicPublishInfo;

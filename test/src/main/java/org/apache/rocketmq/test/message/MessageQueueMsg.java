@@ -36,8 +36,8 @@ public class MessageQueueMsg {
 
     public MessageQueueMsg(List<MessageQueue> mqs, int msgSize, String tag) {
         msgsWithMQ = MQMessageFactory.getMsgByMQ(mqs, msgSize, tag);
-        msgsWithMQId = new HashMap<Integer, List<Object>>();
-        msgBodys = new ArrayList<Object>();
+        msgsWithMQId = new HashMap<>();
+        msgBodys = new ArrayList<>();
         init();
     }
 

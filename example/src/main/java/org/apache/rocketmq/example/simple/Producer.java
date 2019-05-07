@@ -27,6 +27,7 @@ public class Producer {
 
         DefaultMQProducer producer = new DefaultMQProducer("ProducerGroupName");
 
+        producer.setNamesrvAddr("localhost:9876");
         producer.start();
 
         for (int i = 0; i < 10000000; i++)
